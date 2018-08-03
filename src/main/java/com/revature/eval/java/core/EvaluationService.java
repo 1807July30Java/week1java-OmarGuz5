@@ -29,9 +29,15 @@ public class EvaluationService {
 	 * @param phrase
 	 * @return
 	 */
-	public String acronym(String phrase) {
+	public static String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String firstLetter = Character.toString(phrase.charAt(0));
+		String acro = firstLetter;
+		for(int i = 1; i < phrase.length(); ++i) {
+			if(phrase.charAt(i) == ' ' && i+1 < phrase.length())
+				acro += Character.toString(phrase.charAt(i+1));
+		}
+		return acro.toUpperCase();
 	}
 
 	/**
@@ -85,17 +91,34 @@ public class EvaluationService {
 
 		public boolean isEquilateral() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			if(this.sideOne == this.sideTwo && this.sideOne == this.sideThree)
+				return true;
+			else return false;
 		}
 
 		public boolean isIsosceles() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			if(this.sideOne == this.sideTwo)
+				return true;
+			else if(this.sideOne == this.sideThree)
+				return true;
+			else if(this.sideTwo == this.sideThree)
+				return true;
+			else
+				return false;
+			
 		}
 
 		public boolean isScalene() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			if(this.sideOne == this.sideTwo)
+				return false;
+			else if(this.sideOne == this.sideThree)
+				return false;
+			else if(this.sideTwo == this.sideThree)
+				return false;
+			else
+				return true;
 		}
 
 	}
@@ -115,8 +138,48 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
+	final char[] point1 = { 'A', 'E', 'I', 'O', 'U', 'L', 'N', 'R', 'S', 'T' };	
+	final char[] point2 = { 'D', 'G' };
+	final char[] point3 = { 'B', 'C', 'M', 'P' };
+	final char[] point4 = { 'F', 'H', 'V', 'W', 'Y' };
+	final char point5 = 'K';
+	final char[] point8 = { 'J', 'X' };
+	final char point10 = 'Z';
+	
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
+		int result = 0;
+		
+		for(int i = 0; i < string.length(); ++i)
+			result += letterPoint(string.toUpperCase().charAt(i));
+		
+		return result;
+	}
+	
+	public int letterPoint(char ch) {
+		if(ch == point10)
+			return 10;
+		if (ch == point5)
+			return 5;
+		
+		for(int i = 0; i < point2.length; ++i)
+			if(point2[i] == ch)
+				return 2;
+		for(int i = 0; i < point8.length; ++i)
+			if(point8[i] == ch)
+				return 8;
+		for(int i = 0; i < point3.length; ++i)
+			if(point3[i] == ch)
+				return 3;
+		for(int i = 0; i < point4.length; ++i)
+			if(point4[i] == ch)
+				return 4;
+		
+		for(int i = 0; i < point1.length; ++i)
+			if(point1[i] == ch)
+				return 1;
+		
+		
 		return 0;
 	}
 
@@ -153,8 +216,18 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String regx = ".-+ ()";
+		char[] ca = regx.toCharArray();
+	    for (char c : ca) {
+	        string = string.replace(""+c, "");
+	    }
+	    
+	    if(string.length() > 10)
+	    	return null;
+	    
+		return string;
 	}
+	
 
 	/**
 	 * 6. Given a phrase, count the occurrences of each word in that phrase.
